@@ -2,6 +2,8 @@ package cn.org.cycle.csv.demo;
 
 import cn.org.cycle.csv.annotation.CsvProperty;
 
+import java.util.StringJoiner;
+
 /**
  * Copyright (C), 2010-2020, xxx payment. Co., Ltd.
  *
@@ -10,6 +12,10 @@ import cn.org.cycle.csv.annotation.CsvProperty;
  * @date 2020/11/27
  */
 public class DemoWithAnnotation {
+
+    public DemoWithAnnotation() {
+    }
+
     public DemoWithAnnotation(String a, String b, String c) {
         this.a = a;
         this.b = b;
@@ -57,4 +63,14 @@ public class DemoWithAnnotation {
         this.height = height;
     }
 
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DemoWithAnnotation.class.getSimpleName() + "[", "]")
+                .add("a='" + a + "'")
+                .add("b='" + b + "'")
+                .add("c='" + c + "'")
+                .add("height='" + height + "'")
+                .toString();
+    }
 }

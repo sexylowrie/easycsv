@@ -1,16 +1,15 @@
 package cn.org.cycle.csv.metadata;
 
 import java.io.File;
-import java.io.OutputStream;
 
 /**
  * Copyright (C), 2010-2020, xxx payment. Co., Ltd.
  *
  * @author lowrie
  * @version 1.0.0
- * @date 2020/11/26
+ * @date 2020/11/30
  */
-public class WriteCsv {
+public class ReadCsv {
 
     private File file;
 
@@ -31,4 +30,5 @@ public class WriteCsv {
     public void setHead(Class head) {
         this.head = head;
     }
+
 }

@@ -54,15 +54,15 @@ public class CsvWriter {
         if (null == fileWriter) {
             throw new RuntimeException("create fileWriter failed!");
         }
-        this.addContent(data);
+        this.writeContent(data);
         this.finish();
     }
 
-    private void addContent(List data) {
+    private void writeContent(List data) {
         try {
             if (null != writeCsv.getHead()) {
                 headMap = new TreeMap<>();
-                addHead(writeCsv.getHead());
+                writeHead(writeCsv.getHead());
             }
             for (Object row : data) {
                 addRow(row);
@@ -72,7 +72,7 @@ public class CsvWriter {
         }
     }
 
-    private void addHead(Class head) throws IOException {
+    private void writeHead(Class head) throws IOException {
         StringBuilder builder = new StringBuilder();
         Field[] fields = head.getDeclaredFields();
         int index = 0;
@@ -105,9 +105,9 @@ public class CsvWriter {
                 if (!beanMap.containsKey(name)) {
                     continue;
                 }
-                Object o = beanMap.get(name);
-                if (null != o) {
-                    builder.append(o);
+                Object value = beanMap.get(name);
+                if (null != value) {
+                    builder.append(value);
                 }
 
                 if (++index != headMap.size()) {
@@ -118,7 +118,10 @@ public class CsvWriter {
             Set<Map.Entry> entries = beanMap.entrySet();
             for (Map.Entry entry : entries) {
                 Object value = entry.getValue();
-                builder.append(PREFIX).append(value);
+                builder.append(PREFIX);
+                if (null != value) {
+                    builder.append(value);
+                }
                 if (++index != entries.size()) {
                     builder.append(COMMAR);
                 }

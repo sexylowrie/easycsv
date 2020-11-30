@@ -1,5 +1,7 @@
 package cn.org.cycle.csv.demo;
 
+import java.util.StringJoiner;
+
 /**
  * Copyright (C), 2010-2020, xxx payment. Co., Ltd.
  *
@@ -8,6 +10,9 @@ package cn.org.cycle.csv.demo;
  * @date 2020/11/27
  */
 public class Demo {
+
+    public Demo() {
+    }
 
     public Demo(String a, String b, String c) {
         this.a = a;
@@ -41,5 +46,14 @@ public class Demo {
 
     public void setC(String c) {
         this.c = c;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Demo.class.getSimpleName() + "[", "]")
+                .add("a='" + a + "'")
+                .add("b='" + b + "'")
+                .add("c='" + c + "'")
+                .toString();
     }
 }

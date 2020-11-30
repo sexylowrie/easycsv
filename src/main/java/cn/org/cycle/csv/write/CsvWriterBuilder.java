@@ -38,7 +38,4 @@ public class CsvWriterBuilder {
         this.writeCsv.setFile(outputFile);
     }
 
-    public void file(OutputStream outputStream) {
-        this.writeCsv.setOutputStream(outputStream);
-    }
 }

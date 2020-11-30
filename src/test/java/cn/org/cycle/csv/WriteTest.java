@@ -5,6 +5,7 @@ import cn.org.cycle.csv.demo.Demo;
 import cn.org.cycle.csv.demo.DemoWithAnnotation;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class WriteTest {
         System.out.println("================write with head==================");
         EasyCsv.write("./test3.csv", DemoWithAnnotation.class).build().doWrite(dataWithAnnotation());
         System.out.println("=============write with Annotation===============");
+        EasyCsv.write(new File("./test4.csv"), DemoWithAnnotation.class).build().doWrite(dataWithAnnotation());
+        System.out.println("========write with Annotation into file==========");
+        EasyCsv.write(new File("./test5.csv")).build().doWrite(dataWithAnnotation());
+        System.out.println("========write with Annotation into file==========");
     }
 
     public List data() {
@@ -43,9 +48,6 @@ public class WriteTest {
         data.add(new DemoWithAnnotation("a", "", ""));
         return data;
     }
-
-
-
 
 
 }
