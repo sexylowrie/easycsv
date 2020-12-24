@@ -4,7 +4,6 @@ import cn.org.cycle.csv.CsvWriter;
 import cn.org.cycle.csv.metadata.WriteCsv;
 
 import java.io.File;
-import java.io.OutputStream;
 
 /**
  * Copyright (C), 2010-2020, xxx payment. Co., Ltd.
@@ -24,6 +23,10 @@ public class CsvWriterBuilder {
     public CsvWriter build() {
         CsvWriter csvWriter = new CsvWriter(writeCsv);
         return csvWriter;
+    }
+
+    public void charset(String charsetName) {
+        this.writeCsv.setCharset(charsetName);
     }
 
     public void head(Class head) {

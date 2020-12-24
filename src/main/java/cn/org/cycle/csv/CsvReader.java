@@ -2,11 +2,8 @@ package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.annotation.CsvProperty;
 import cn.org.cycle.csv.metadata.ReadCsv;
-import net.sf.cglib.beans.BeanMap;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -42,7 +39,7 @@ public class CsvReader {
     public CsvReader(ReadCsv readCsv) {
         this.readCsv = readCsv;
         try {
-            this.fileReader = new BufferedReader(new FileReader(readCsv.getFile()));
+            this.fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(readCsv.getFile()), readCsv.getCharset()));
         } catch (IOException e) {
             e.printStackTrace();
         }

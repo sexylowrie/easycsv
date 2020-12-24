@@ -11,9 +11,15 @@ import java.io.File;
  */
 public class ReadCsv {
 
+    public ReadCsv() {
+        this.charset = "UTF-8";
+    }
+
     private File file;
 
     private Class head;
+
+    private String charset;
 
     public File getFile() {
         return file;
@@ -31,4 +37,12 @@ public class ReadCsv {
         this.head = head;
     }
 
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
 }

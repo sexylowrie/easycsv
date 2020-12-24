@@ -4,8 +4,7 @@ import cn.org.cycle.csv.annotation.CsvProperty;
 import cn.org.cycle.csv.metadata.WriteCsv;
 import net.sf.cglib.beans.BeanMap;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,7 @@ public class CsvWriter {
 
     private WriteCsv writeCsv;
 
-    private FileWriter fileWriter;
+    private BufferedWriter fileWriter;
 
     /**
      * 分隔符
@@ -43,7 +42,7 @@ public class CsvWriter {
     public CsvWriter(WriteCsv writeCsv) {
         this.writeCsv = writeCsv;
         try {
-            this.fileWriter = new FileWriter(writeCsv.getFile());
+            this.fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(writeCsv.getFile()), writeCsv.getCharset()));
         } catch (IOException e) {
             e.printStackTrace();
         }

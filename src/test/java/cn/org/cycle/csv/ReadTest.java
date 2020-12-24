@@ -3,8 +3,11 @@ package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.demo.Demo;
 import cn.org.cycle.csv.demo.DemoWithAnnotation;
+import cn.org.cycle.csv.read.CsvReaderBuilder;
 import org.junit.Test;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class ReadTest {
@@ -25,6 +28,16 @@ public class ReadTest {
         List<?> data4 = EasyCsv.read("./test5.csv", DemoWithAnnotation.class).build().doRead();
         System.out.println("result:" + data4);
         System.out.println("====================With Annotation======================");
+    }
+
+
+    @Test
+    public void simpleRead2() throws IOException {
+        System.out.println("=================================================");
+        CsvReaderBuilder readerBuilder = EasyCsv.read("./20201223.csv");
+        readerBuilder.charset("GBK");
+        List<?> data1 = readerBuilder.build().doRead();
+        System.out.println("result:" + data1);
     }
 
 }

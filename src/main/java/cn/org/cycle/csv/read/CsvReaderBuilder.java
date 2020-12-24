@@ -25,6 +25,10 @@ public class CsvReaderBuilder {
         return csvReader;
     }
 
+    public void charset(String charsetName) {
+        this.readCsv.setCharset(charsetName);
+    }
+
     public void head(Class head) {
         this.readCsv.setHead(head);
     }

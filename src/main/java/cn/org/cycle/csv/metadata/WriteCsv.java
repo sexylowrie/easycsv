@@ -1,7 +1,6 @@
 package cn.org.cycle.csv.metadata;
 
 import java.io.File;
-import java.io.OutputStream;
 
 /**
  * Copyright (C), 2010-2020, xxx payment. Co., Ltd.
@@ -12,9 +11,15 @@ import java.io.OutputStream;
  */
 public class WriteCsv {
 
+    public WriteCsv() {
+        this.charset = "UTF-8";
+    }
+
     private File file;
 
     private Class head;
+
+    private String charset;
 
     public File getFile() {
         return file;
@@ -30,5 +35,14 @@ public class WriteCsv {
 
     public void setHead(Class head) {
         this.head = head;
+    }
+
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
     }
 }

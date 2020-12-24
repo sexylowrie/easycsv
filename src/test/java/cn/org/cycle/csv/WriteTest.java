@@ -3,6 +3,7 @@ package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.demo.Demo;
 import cn.org.cycle.csv.demo.DemoWithAnnotation;
+import cn.org.cycle.csv.write.CsvWriterBuilder;
 import org.junit.Test;
 
 import java.io.File;
@@ -25,6 +26,10 @@ public class WriteTest {
         System.out.println("========write with Annotation into file==========");
         EasyCsv.write(new File("./test5.csv")).build().doWrite(dataWithAnnotation());
         System.out.println("========write with Annotation into file==========");
+        CsvWriterBuilder writerBuilder = EasyCsv.write(new File("./test6.csv"));
+        writerBuilder.charset("GBK");
+        writerBuilder.build().doWrite(dataWithGBK());
+        System.out.println("============write with GBK into file=============");
     }
 
     public List data() {
@@ -41,6 +46,17 @@ public class WriteTest {
     public List dataWithAnnotation() {
         List data = new ArrayList();
         data.add(new DemoWithAnnotation("aa", "bb", "cc"));
+        data.add(new DemoWithAnnotation("aa", "bb", ""));
+        data.add(new DemoWithAnnotation("aa", "", ""));
+        data.add(new DemoWithAnnotation("a", "b", "c"));
+        data.add(new DemoWithAnnotation("a", "b", ""));
+        data.add(new DemoWithAnnotation("a", "", ""));
+        return data;
+    }
+
+    public List dataWithGBK() {
+        List data = new ArrayList();
+        data.add(new DemoWithAnnotation("标题一", "标题二", "标题三"));
         data.add(new DemoWithAnnotation("aa", "bb", ""));
         data.add(new DemoWithAnnotation("aa", "", ""));
         data.add(new DemoWithAnnotation("a", "b", "c"));
