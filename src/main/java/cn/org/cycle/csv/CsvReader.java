@@ -1,9 +1,12 @@
 package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.annotation.CsvProperty;
-import cn.org.cycle.csv.metadata.ReadCsv;
+import cn.org.cycle.csv.metadata.MetaCsv;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -16,30 +19,17 @@ import java.util.*;
  */
 public class CsvReader {
 
-    private ReadCsv readCsv;
+    private MetaCsv metaCsv;
 
     private BufferedReader fileReader;
-
-    /**
-     * 分隔符
-     */
-    public static final String COMMAR = ",";
-    /**
-     * 前缀
-     */
-    public static final String PREFIX = "`";
-    /**
-     * 换行
-     */
-    public static final String ROW = "\r\n";
 
     private Map<String, String> paramMap;
     private Map<Integer, String> headMap;
 
-    public CsvReader(ReadCsv readCsv) {
-        this.readCsv = readCsv;
+    public CsvReader(MetaCsv metaCsv) {
+        this.metaCsv = metaCsv;
         try {
-            this.fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(readCsv.getFile()), readCsv.getCharset()));
+            this.fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(metaCsv.getFile()), metaCsv.getCharset()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,9 +45,9 @@ public class CsvReader {
     }
 
     private List readContent() {
-        if (null != readCsv.getHead()) {
+        if (null != metaCsv.getHead()) {
             paramMap = new HashMap<>();
-            initParamMap(readCsv.getHead());
+            initParamMap(metaCsv.getHead());
         }
         List list = new ArrayList();
         String row;
@@ -79,10 +69,10 @@ public class CsvReader {
     }
 
     private void readHead(String row) {
-        String[] data = row.split(COMMAR);
+        String[] data = row.split(metaCsv.getSplit());
         int index = 0;
         for (String param : data) {
-            String replace = param.replace(PREFIX, "");
+            String replace = param.replace(metaCsv.getPrefix(), "");
             String name;
             if (null != paramMap && paramMap.size() > 0) {
                 name = paramMap.get(replace);
@@ -98,8 +88,8 @@ public class CsvReader {
         if (null == headMap || headMap.size() < 1) {
             throw new RuntimeException();
         }
-        String[] data = row.split(COMMAR);
-        Class head = readCsv.getHead();
+        String[] data = row.split(metaCsv.getSplit());
+        Class head = metaCsv.getHead();
         int index = 0;
         if (null != head) {
             try {
@@ -108,7 +98,7 @@ public class CsvReader {
                     Field field = head.getDeclaredField(headMap.get(index));
                     //TODO 判断空指针
                     field.setAccessible(true);
-                    field.set(instance, param.replace(PREFIX, ""));
+                    field.set(instance, param.replace(metaCsv.getPrefix(), ""));
                     index++;
                 }
                 return instance;
@@ -119,7 +109,7 @@ public class CsvReader {
         } else {
             HashMap map = new HashMap();
             for (String param : data) {
-                map.put(headMap.get(index), param.replace(PREFIX, ""));
+                map.put(headMap.get(index), param.replace(metaCsv.getPrefix(), ""));
                 index++;
             }
             return map;

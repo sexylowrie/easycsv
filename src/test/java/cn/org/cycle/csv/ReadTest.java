@@ -6,8 +6,6 @@ import cn.org.cycle.csv.demo.DemoWithAnnotation;
 import cn.org.cycle.csv.read.CsvReaderBuilder;
 import org.junit.Test;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 public class ReadTest {
@@ -25,19 +23,15 @@ public class ReadTest {
         List<?> data3 = EasyCsv.read("./test3.csv", DemoWithAnnotation.class).build().doRead();
         System.out.println("result:" + data3);
         System.out.println("====================With Annotation======================");
-        List<?> data4 = EasyCsv.read("./test5.csv", DemoWithAnnotation.class).build().doRead();
-        System.out.println("result:" + data4);
+//        List<?> data4 = EasyCsv.read("./test4.csv", DemoWithAnnotation.class).build().doRead();
+//        System.out.println("result:" + data4);
+//        System.out.println("====================With Annotation======================");
+        CsvReaderBuilder readerBuilder = EasyCsv.read("./20201223.csv", DemoWithAnnotation.class);
+        readerBuilder.charset("GBK");
+        List<?> data5 = readerBuilder.build().doRead();
+        System.out.println("result:" + data5);
         System.out.println("====================With Annotation======================");
     }
 
-
-    @Test
-    public void simpleRead2() throws IOException {
-        System.out.println("=================================================");
-        CsvReaderBuilder readerBuilder = EasyCsv.read("./20201223.csv");
-        readerBuilder.charset("GBK");
-        List<?> data1 = readerBuilder.build().doRead();
-        System.out.println("result:" + data1);
-    }
 
 }

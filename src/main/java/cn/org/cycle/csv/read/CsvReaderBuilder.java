@@ -1,7 +1,7 @@
 package cn.org.cycle.csv.read;
 
 import cn.org.cycle.csv.CsvReader;
-import cn.org.cycle.csv.metadata.ReadCsv;
+import cn.org.cycle.csv.metadata.MetaCsv;
 
 import java.io.File;
 
@@ -14,31 +14,30 @@ import java.io.File;
  */
 public class CsvReaderBuilder {
 
-    private ReadCsv readCsv;
+    private final MetaCsv readCsv;
 
     public CsvReaderBuilder() {
-        this.readCsv = new ReadCsv();
+        this.readCsv = new MetaCsv();
     }
 
     public CsvReader build() {
-        CsvReader csvReader = new CsvReader(readCsv);
-        return csvReader;
+        return new CsvReader(readCsv);
     }
 
-    public void charset(String charsetName) {
-        this.readCsv.setCharset(charsetName);
+    public void charset(String charset) {
+        this.readCsv.setCharset(charset);
     }
 
-    public void head(Class head) {
+    public void head(Class<?> head) {
         this.readCsv.setHead(head);
     }
 
-    public void file(String pathName) {
-        this.file(new File(pathName));
+    public void file(String path) {
+        this.file(new File(path));
     }
 
-    public void file(File outputFile) {
-        this.readCsv.setFile(outputFile);
+    public void file(File file) {
+        this.readCsv.setFile(file);
     }
 
 }

@@ -1,10 +1,13 @@
 package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.annotation.CsvProperty;
-import cn.org.cycle.csv.metadata.WriteCsv;
+import cn.org.cycle.csv.metadata.MetaCsv;
 import net.sf.cglib.beans.BeanMap;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -20,29 +23,16 @@ import java.util.TreeMap;
  */
 public class CsvWriter {
 
-    private WriteCsv writeCsv;
+    private MetaCsv metaCsv;
 
     private BufferedWriter fileWriter;
 
-    /**
-     * 分隔符
-     */
-    public static final String COMMAR = ",";
-    /**
-     * 前缀
-     */
-    public static final String PREFIX = "`";
-    /**
-     * 换行
-     */
-    public static final String ROW = "\r\n";
-
     private Map<Integer, String> headMap;
 
-    public CsvWriter(WriteCsv writeCsv) {
-        this.writeCsv = writeCsv;
+    public CsvWriter(MetaCsv metaCsv) {
+        this.metaCsv = metaCsv;
         try {
-            this.fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(writeCsv.getFile()), writeCsv.getCharset()));
+            this.fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(metaCsv.getFile()), metaCsv.getCharset()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,9 +49,9 @@ public class CsvWriter {
 
     private void writeContent(List data) {
         try {
-            if (null != writeCsv.getHead()) {
+            if (null != metaCsv.getHead()) {
                 headMap = new TreeMap<>();
-                writeHead(writeCsv.getHead());
+                writeHead(metaCsv.getHead());
             }
             for (Object row : data) {
                 addRow(row);
@@ -78,16 +68,16 @@ public class CsvWriter {
         for (Field field : fields) {
             CsvProperty property = field.getAnnotation(CsvProperty.class);
             if (property == null) {
-                builder.append(PREFIX).append(field.getName());
+                builder.append(metaCsv.getPrefix()).append(field.getName());
             } else {
-                builder.append(PREFIX).append(property.value());
+                builder.append(metaCsv.getPrefix()).append(property.value());
             }
             headMap.put(index, field.getName());
             if (++index != fields.length) {
-                builder.append(COMMAR);
+                builder.append(metaCsv.getSplit());
             }
         }
-        builder.append(ROW);
+        builder.append(metaCsv.getRow());
         fileWriter.write(builder.toString());
     }
 
@@ -100,7 +90,7 @@ public class CsvWriter {
             Set<Map.Entry<Integer, String>> entries = headMap.entrySet();
             for (Map.Entry<Integer, String> entry : entries) {
                 String name = entry.getValue();
-                builder.append(PREFIX);
+                builder.append(metaCsv.getPrefix());
                 if (!beanMap.containsKey(name)) {
                     continue;
                 }
@@ -110,23 +100,23 @@ public class CsvWriter {
                 }
 
                 if (++index != headMap.size()) {
-                    builder.append(COMMAR);
+                    builder.append(metaCsv.getSplit());
                 }
             }
         } else {
             Set<Map.Entry> entries = beanMap.entrySet();
             for (Map.Entry entry : entries) {
                 Object value = entry.getValue();
-                builder.append(PREFIX);
+                builder.append(metaCsv.getPrefix());
                 if (null != value) {
                     builder.append(value);
                 }
                 if (++index != entries.size()) {
-                    builder.append(COMMAR);
+                    builder.append(metaCsv.getSplit());
                 }
             }
         }
-        builder.append(ROW);
+        builder.append(metaCsv.getRow());
         fileWriter.write(builder.toString());
     }
 

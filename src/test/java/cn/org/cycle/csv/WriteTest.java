@@ -22,11 +22,9 @@ public class WriteTest {
         System.out.println("================write with head==================");
         EasyCsv.write("./test3.csv", DemoWithAnnotation.class).build().doWrite(dataWithAnnotation());
         System.out.println("=============write with Annotation===============");
-        EasyCsv.write(new File("./test4.csv"), DemoWithAnnotation.class).build().doWrite(dataWithAnnotation());
-        System.out.println("========write with Annotation into file==========");
-        EasyCsv.write(new File("./test5.csv")).build().doWrite(dataWithAnnotation());
-        System.out.println("========write with Annotation into file==========");
-        CsvWriterBuilder writerBuilder = EasyCsv.write(new File("./test6.csv"));
+        EasyCsv.write("./test4.csv").build().doWrite(dataWithAnnotation());
+        System.out.println("=============write with Annotation===============");
+        CsvWriterBuilder writerBuilder = EasyCsv.write("./test5.csv");
         writerBuilder.charset("GBK");
         writerBuilder.build().doWrite(dataWithGBK());
         System.out.println("============write with GBK into file=============");
