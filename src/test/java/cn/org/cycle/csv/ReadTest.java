@@ -3,6 +3,7 @@ package cn.org.cycle.csv;
 
 import cn.org.cycle.csv.demo.Demo;
 import cn.org.cycle.csv.demo.DemoWithAnnotation;
+import cn.org.cycle.csv.demo.SpecifyDemo;
 import cn.org.cycle.csv.demo.TitleDemo;
 import org.junit.Test;
 
@@ -115,6 +116,20 @@ public class ReadTest {
             System.out.println(o.toString());
         }
         System.out.println("================Read in head=================");
+    }
+
+    /**
+     * 使用默认参数读取指定标题格式CSV文件
+     * 不包含的不读取
+     */
+    @Test
+    public void readSpecify() {
+        System.out.println("=================================================");
+        List<?> objects = EasyCsv.read("./spe_annotation.csv", SpecifyDemo.class).build().doRead();
+        for (Object o : objects) {
+            System.out.println(o.toString());
+        }
+        System.out.println("================Read in specify=================");
     }
 
 

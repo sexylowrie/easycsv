@@ -127,7 +127,7 @@ public class CsvReader {
         try {
             Object instance = head.newInstance();
             for (String param : data) {
-                if (index >= headMap.size()) {
+                if (null == headMap.get(index)) {
                     continue;
                 }
                 Field field = head.getDeclaredField(headMap.get(index));
