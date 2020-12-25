@@ -7,12 +7,12 @@ package cn.org.cycle.csv.demo;
  * @version 1.0.0
  * @date 2020/11/27
  */
-public class Demo {
+public class TitleDemo {
 
-    public Demo() {
+    public TitleDemo() {
     }
 
-    public Demo(String title1, String title2, String title3) {
+    public TitleDemo(String title1, String title2, String title3) {
         this.title1 = title1;
         this.title2 = title2;
         this.title3 = title3;
@@ -48,7 +48,7 @@ public class Demo {
 
     @Override
     public String toString() {
-        return "Demo{" +
+        return "TitleDemo{" +
                 "title1='" + title1 + '\'' +
                 ", title2='" + title2 + '\'' +
                 ", title3='" + title3 + '\'' +

@@ -52,9 +52,7 @@ public class CsvWriter {
 
     private void writeContent(List<?> data) {
         try {
-            if(metaCsv.getTitled()){
-                writeHead(data);
-            }
+            writeHead(data);
             for (Object row : data) {
                 writeRow(row);
             }
@@ -71,10 +69,10 @@ public class CsvWriter {
      */
     private void writeHead(List<?> data) throws IOException {
         headMap = new TreeMap<>();
-
         Class<?> clazz = metaCsv.getHead();
         if (null != clazz) {
             writeClassHead(clazz);
+            return;
         }
 
         if (null != data && data.size() > 0) {
@@ -100,7 +98,9 @@ public class CsvWriter {
             }
         }
         builder.append(metaCsv.getRow());
-        fileWriter.write(builder.toString());
+        if (metaCsv.getTitled()) {
+            fileWriter.write(builder.toString());
+        }
     }
 
 

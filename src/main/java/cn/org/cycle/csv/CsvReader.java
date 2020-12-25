@@ -48,14 +48,15 @@ public class CsvReader {
     }
 
     private List<?> readContent() {
+        paramMap = new HashMap<>();
+        headMap = new TreeMap<>();
         initParamMap();
         List list = new ArrayList<>();
         String row;
         try {
             int index = 0;
             while (null != (row = fileReader.readLine())) {
-                if (index == 0) {
-                    headMap = new TreeMap<>();
+                if (index == 0 && metaCsv.getTitled()) {
                     readHead(row);
                 } else {
                     list.add(readRow(row));
@@ -69,15 +70,19 @@ public class CsvReader {
     }
 
     private void initParamMap() {
-        paramMap = new HashMap<>();
+        int index = 0;
         Field[] fields = metaCsv.getHead().getDeclaredFields();
         for (Field field : fields) {
             CsvProperty property = field.getAnnotation(CsvProperty.class);
             String name = field.getName();
-            paramMap.put(name, field.getName());
-            if (property != null) {
+            if (null == property) {
+                paramMap.put(name, field.getName());
+            } else {
                 name = property.value();
                 paramMap.put(name, field.getName());
+            }
+            if (!metaCsv.getTitled()) {
+                headMap.put(index++, name);
             }
         }
     }
@@ -93,8 +98,10 @@ public class CsvReader {
             } else {
                 name = replace;
             }
-            headMap.put(index, name);
-            index++;
+            if (name == null || "".equals(name)) {
+                throw new RuntimeException(String.format("%s can not be resolved", replace));
+            }
+            headMap.put(index++, name);
         }
     }
 
@@ -109,6 +116,9 @@ public class CsvReader {
         try {
             Object instance = head.newInstance();
             for (String param : data) {
+                if (index >= headMap.size()) {
+                    continue;
+                }
                 Field field = head.getDeclaredField(headMap.get(index));
                 field.setAccessible(true);
                 field.set(instance, param.replace(metaCsv.getPrefix(), "").trim());
