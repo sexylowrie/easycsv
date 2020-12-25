@@ -51,7 +51,7 @@ public class CsvReader {
         paramMap = new HashMap<>();
         headMap = new TreeMap<>();
         initParamMap();
-        List list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         String row;
         try {
             int index = 0;
@@ -122,7 +122,7 @@ public class CsvReader {
             throw new RuntimeException();
         }
         String[] data = row.split(metaCsv.getSplit());
-        Class head = metaCsv.getHead();
+        Class<?> head = metaCsv.getHead();
         int index = 0;
         try {
             Object instance = head.newInstance();
