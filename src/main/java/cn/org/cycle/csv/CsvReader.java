@@ -75,17 +75,27 @@ public class CsvReader {
         for (Field field : fields) {
             CsvProperty property = field.getAnnotation(CsvProperty.class);
             String name = field.getName();
-            if (null == property) {
-                paramMap.put(name, field.getName());
-            } else {
+            paramMap.put(name, field.getName());
+            if (null != property) {
                 name = property.value();
                 paramMap.put(name, field.getName());
             }
+
             if (!metaCsv.getTitled()) {
-                headMap.put(index++, name);
+                headMap.put(index++, field.getName());
             }
         }
     }
+
+
+    private void initHeadMap() {
+        int index = 0;
+        Field[] fields = metaCsv.getHead().getDeclaredFields();
+        for (Field field : fields) {
+            headMap.put(index++, field.getName());
+        }
+    }
+
 
     private void readHead(String row) {
         String[] data = row.split(metaCsv.getSplit());
@@ -98,10 +108,12 @@ public class CsvReader {
             } else {
                 name = replace;
             }
-            if (name == null || "".equals(name)) {
-                throw new RuntimeException(String.format("%s can not be resolved", replace));
+            if (name != null && !"".equals(name)) {
+                headMap.put(index++, name);
             }
-            headMap.put(index++, name);
+        }
+        if (null == headMap || headMap.size() == 0) {
+            initHeadMap();
         }
     }
 
@@ -112,7 +124,6 @@ public class CsvReader {
         String[] data = row.split(metaCsv.getSplit());
         Class head = metaCsv.getHead();
         int index = 0;
-//        if (null != head) {
         try {
             Object instance = head.newInstance();
             for (String param : data) {
@@ -128,15 +139,6 @@ public class CsvReader {
         } catch (InstantiationException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
         }
-
-//        } else {
-//            HashMap map = new HashMap();
-//            for (String param : data) {
-//                map.put(headMap.get(index), param.replace(metaCsv.getPrefix(), ""));
-//                index++;
-//            }
-//            return map;
-//        }
         return null;
     }
 

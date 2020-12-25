@@ -12,7 +12,7 @@ public class ReadTest {
 
 
     /**
-     * 使用默认参数输出CSV文件
+     * 使用默认参数读取CSV文件
      */
     @Test
     public void readSpecifyDefault() {
@@ -24,6 +24,9 @@ public class ReadTest {
         System.out.println("================Read in default=================");
     }
 
+    /**
+     * 使用默认参数读取GBK编码CSV文件
+     */
     @Test
     public void readSpecifyGBK() {
         System.out.println("=================================================");
@@ -34,6 +37,9 @@ public class ReadTest {
         System.out.println("================Read in gbk=================");
     }
 
+    /**
+     * 使用默认参数读取指定split格式CSV文件
+     */
     @Test
     public void readSpecifySplit() {
         System.out.println("=================================================");
@@ -44,6 +50,10 @@ public class ReadTest {
         System.out.println("================Read in split=================");
     }
 
+    /**
+     * 使用默认参数读取指定换行符CSV文件
+     * TODO 此处无明显意义
+     */
     @Test
     public void readSpecifyRow() {
         System.out.println("=================================================");
@@ -54,6 +64,9 @@ public class ReadTest {
         System.out.println("================Read in row=================");
     }
 
+    /**
+     * 使用默认参数读取指定前缀CSV文件
+     */
     @Test
     public void readSpecifyPrefix() {
         System.out.println("=================================================");
@@ -64,7 +77,9 @@ public class ReadTest {
         System.out.println("================Read in prefix=================");
     }
 
-
+    /**
+     * 使用默认参数读取指定无标题CSV文件
+     */
     @Test
     public void readSpecifyTitled() {
         System.out.println("=================================================");
@@ -75,6 +90,9 @@ public class ReadTest {
         System.out.println("================Read in titled=================");
     }
 
+    /**
+     * 使用默认参数读取指定注解CSV文件
+     */
     @Test
     public void readSpecifyAnnotation() {
         System.out.println("=================================================");
@@ -85,10 +103,14 @@ public class ReadTest {
         System.out.println("================Read in annotation=================");
     }
 
+    /**
+     * 使用默认参数读取指定标题格式CSV文件
+     * 不包含的不读取
+     */
     @Test
     public void readSpecifyHead() {
         System.out.println("=================================================");
-        List<?> objects = EasyCsv.read("./spe_head_read.csv", TitleDemo.class).build().doRead();
+        List<?> objects = EasyCsv.read("./spe_annotation.csv", TitleDemo.class).build().doRead();
         for (Object o : objects) {
             System.out.println(o.toString());
         }
