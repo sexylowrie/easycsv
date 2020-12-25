@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +24,9 @@ import java.util.TreeMap;
  */
 public class CsvWriter {
 
-    private MetaCsv metaCsv;
+    private static final String DEFAULT_TITLE = "标题";
+
+    private final MetaCsv metaCsv;
 
     private BufferedWriter fileWriter;
 
@@ -39,7 +42,7 @@ public class CsvWriter {
 
     }
 
-    public void doWrite(List data) {
+    public void doWrite(List<?> data) {
         if (null == fileWriter) {
             throw new RuntimeException("create fileWriter failed!");
         }
@@ -47,21 +50,40 @@ public class CsvWriter {
         this.finish();
     }
 
-    private void writeContent(List data) {
+    private void writeContent(List<?> data) {
         try {
-            if (null != metaCsv.getHead()) {
-                headMap = new TreeMap<>();
-                writeHead(metaCsv.getHead());
+            if(metaCsv.getTitled()){
+                writeHead(data);
             }
             for (Object row : data) {
-                addRow(row);
+                writeRow(row);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void writeHead(Class head) throws IOException {
+    /**
+     * 支持多维度Heap Map
+     *
+     * @param data
+     * @throws IOException
+     */
+    private void writeHead(List<?> data) throws IOException {
+        headMap = new TreeMap<>();
+
+        Class<?> clazz = metaCsv.getHead();
+        if (null != clazz) {
+            writeClassHead(clazz);
+        }
+
+        if (null != data && data.size() > 0) {
+            writeClassHead(data.get(0).getClass());
+        }
+    }
+
+
+    private void writeClassHead(Class<?> head) throws IOException {
         StringBuilder builder = new StringBuilder();
         Field[] fields = head.getDeclaredFields();
         int index = 0;
@@ -82,7 +104,7 @@ public class CsvWriter {
     }
 
 
-    private void addRow(Object row) throws IOException {
+    private void writeRow(Object row) throws IOException {
         StringBuilder builder = new StringBuilder();
         BeanMap beanMap = BeanMap.create(row);
         int index = 0;
@@ -100,18 +122,6 @@ public class CsvWriter {
                 }
 
                 if (++index != headMap.size()) {
-                    builder.append(metaCsv.getSplit());
-                }
-            }
-        } else {
-            Set<Map.Entry> entries = beanMap.entrySet();
-            for (Map.Entry entry : entries) {
-                Object value = entry.getValue();
-                builder.append(metaCsv.getPrefix());
-                if (null != value) {
-                    builder.append(value);
-                }
-                if (++index != entries.size()) {
                     builder.append(metaCsv.getSplit());
                 }
             }

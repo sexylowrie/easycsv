@@ -14,22 +14,43 @@ import java.io.File;
  */
 public class CsvReaderBuilder {
 
-    private final MetaCsv readCsv;
+    private final MetaCsv metaCsv;
 
     public CsvReaderBuilder() {
-        this.readCsv = new MetaCsv();
+        this.metaCsv = new MetaCsv();
     }
 
     public CsvReader build() {
-        return new CsvReader(readCsv);
+        return new CsvReader(metaCsv);
     }
 
-    public void charset(String charset) {
-        this.readCsv.setCharset(charset);
+    public CsvReaderBuilder charset(String charset) {
+        this.metaCsv.setCharset(charset);
+        return this;
+    }
+
+    public CsvReaderBuilder prefix(String prefix) {
+        this.metaCsv.setPrefix(prefix);
+        return this;
+    }
+
+    public CsvReaderBuilder row(String row) {
+        this.metaCsv.setRow(row);
+        return this;
+    }
+
+    public CsvReaderBuilder split(String split) {
+        this.metaCsv.setSplit(split);
+        return this;
+    }
+
+    public CsvReaderBuilder titled(Boolean bool) {
+        this.metaCsv.setTitled(bool);
+        return this;
     }
 
     public void head(Class<?> head) {
-        this.readCsv.setHead(head);
+        this.metaCsv.setHead(head);
     }
 
     public void file(String path) {
@@ -37,7 +58,7 @@ public class CsvReaderBuilder {
     }
 
     public void file(File file) {
-        this.readCsv.setFile(file);
+        this.metaCsv.setFile(file);
     }
 
 }

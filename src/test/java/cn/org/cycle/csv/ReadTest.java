@@ -13,9 +13,9 @@ public class ReadTest {
 
     @Test
     public void simpleRead() {
-        System.out.println("=================================================");
-        List<?> data1 = EasyCsv.read("./test1.csv").build().doRead();
-        System.out.println("result:" + data1);
+//        System.out.println("=================================================");
+//        List<?> data1 = EasyCsv.read("./test1.csv").build().doRead();
+//        System.out.println("result:" + data1);
         System.out.println("====================No Head======================");
         List<?> data2 = EasyCsv.read("./test2.csv", Demo.class).build().doRead();
         System.out.println("result:" + data2);

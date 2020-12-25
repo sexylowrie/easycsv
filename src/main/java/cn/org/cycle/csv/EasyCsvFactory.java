@@ -26,16 +26,10 @@ public class EasyCsvFactory {
     }
 
 
-    public static CsvReaderBuilder read(String pathName) {
-        return read(pathName, null);
-    }
-
     public static CsvReaderBuilder read(String pathName, Class<?> head) {
         CsvReaderBuilder readerBuilder = new CsvReaderBuilder();
         readerBuilder.file(pathName);
-        if (head != null) {
-            readerBuilder.head(head);
-        }
+        readerBuilder.head(head);
         return readerBuilder;
     }
 

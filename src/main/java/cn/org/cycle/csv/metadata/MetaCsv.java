@@ -35,6 +35,11 @@ public class MetaCsv {
      */
     private String split = ",";
 
+    /**
+     * 默认书写/读取标题行
+     */
+    private Boolean titled = true;
+
     public File getFile() {
         return file;
     }
@@ -81,5 +86,13 @@ public class MetaCsv {
 
     public void setSplit(String split) {
         this.split = split;
+    }
+
+    public Boolean getTitled() {
+        return titled;
+    }
+
+    public void setTitled(Boolean titled) {
+        this.titled = titled;
     }
 }

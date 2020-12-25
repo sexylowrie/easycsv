@@ -24,8 +24,29 @@ public class CsvWriterBuilder {
         return new CsvWriter(metaCsv);
     }
 
-    public void charset(String charset) {
+    public CsvWriterBuilder charset(String charset) {
         this.metaCsv.setCharset(charset);
+        return this;
+    }
+
+    public CsvWriterBuilder prefix(String prefix) {
+        this.metaCsv.setPrefix(prefix);
+        return this;
+    }
+
+    public CsvWriterBuilder row(String row) {
+        this.metaCsv.setRow(row);
+        return this;
+    }
+
+    public CsvWriterBuilder split(String split) {
+        this.metaCsv.setSplit(split);
+        return this;
+    }
+
+    public CsvWriterBuilder titled(Boolean bool) {
+        this.metaCsv.setTitled(bool);
+        return this;
     }
 
     public void head(Class<?> head) {

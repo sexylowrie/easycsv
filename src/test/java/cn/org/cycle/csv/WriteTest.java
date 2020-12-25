@@ -54,7 +54,6 @@ public class WriteTest {
 
     public List dataWithGBK() {
         List data = new ArrayList();
-        data.add(new DemoWithAnnotation("标题一", "标题二", "标题三"));
         data.add(new DemoWithAnnotation("aa", "bb", ""));
         data.add(new DemoWithAnnotation("aa", "", ""));
         data.add(new DemoWithAnnotation("a", "b", "c"));
